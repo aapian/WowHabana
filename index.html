@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WOW Habana — Artículos Personalizados</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Playfair+Display:ital@1&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --wow-pink: #E83C6A;
+      --wow-pink-light: #f9d0db;
+      --wow-dark: #111111;
+      --wow-off: #faf9f7;
+      --wow-muted: #888;
+      --wow-gold: #c9a84c;
+      --radius: 16px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--wow-off);
+      color: var(--wow-dark);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw;
+      height: 64px;
+      background: rgba(250,249,247,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      color: var(--wow-pink);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--wow-dark); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.78rem; font-weight: 500; letter-spacing: 1.5px;
+      text-transform: uppercase; text-decoration: none; color: var(--wow-dark);
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--wow-pink); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 80px 5vw 60px;
+      background: var(--wow-dark);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 40%, #E83C6A22 0%, transparent 70%);
+    }
+    .hero-eyebrow {
+      font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--wow-pink); font-weight: 500; margin-bottom: 1.2rem;
+    }
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 18vw, 14rem);
+      line-height: 0.88;
+      color: white;
+      position: relative;
+    }
+    .hero h1 .outline {
+      -webkit-text-stroke: 2px white;
+      color: transparent;
+      display: block;
+    }
+    .hero-sub {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      color: rgba(255,255,255,0.6);
+      margin: 1.5rem 0 2.5rem;
+    }
+    .hero-cta {
+      display: inline-block;
+      background: var(--wow-pink);
+      color: white;
+      padding: 14px 40px;
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; text-decoration: none; border-radius: 100px;
+      transition: transform .2s, background .2s;
+    }
+    .hero-cta:hover { transform: scale(1.04); background: #c7305a; }
+    .hero-scroll {
+      position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      color: rgba(255,255,255,0.3); font-size: 0.65rem; letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .hero-scroll::after {
+      content: ''; display: block;
+      width: 1px; height: 48px;
+      background: rgba(255,255,255,0.2);
+      animation: scrollLine 1.6s ease-in-out infinite;
+    }
+    @keyframes scrollLine { 0%,100%{opacity:.2;transform:scaleY(.5)} 50%{opacity:1;transform:scaleY(1)} }
+
+    /* ── SECTION WRAPPER ── */
+    section { padding: 100px 5vw; }
+    .section-header {
+      display: flex; flex-direction: column; align-items: flex-start;
+      margin-bottom: 56px;
+    }
+    .section-tag {
+      font-size: 0.65rem; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--wow-pink); font-weight: 600; margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      line-height: 1; color: var(--wow-dark);
+    }
+    .section-title .outline {
+      -webkit-text-stroke: 1.5px var(--wow-dark);
+      color: transparent;
+    }
+
+    /* ── CATEGORY NAV ── */
+    .cat-nav {
+      background: white;
+      padding: 32px 5vw;
+      display: flex; gap: 12px; flex-wrap: wrap;
+      border-bottom: 1px solid #e5e5e5;
+      position: sticky; top: 64px; z-index: 90;
+    }
+    .cat-btn {
+      padding: 8px 20px;
+      border-radius: 100px;
+      border: 1.5px solid #ddd;
+      background: white; cursor: pointer;
+      font-size: 0.74rem; font-weight: 500; letter-spacing: 1px;
+      text-transform: uppercase; color: var(--wow-dark);
+      transition: all .2s; white-space: nowrap;
+    }
+    .cat-btn:hover, .cat-btn.active {
+      background: var(--wow-pink); color: white; border-color: var(--wow-pink);
+    }
+
+    /* ── GRID ── */
+    .products-section { background: white; }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 28px;
+    }
+
+    /* ── PRODUCT CARD ── */
+    .card {
+      background: var(--wow-off);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform .25s, box-shadow .25s;
+      position: relative;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 48px rgba(0,0,0,0.1);
+    }
+    .card-img {
+      width: 100%; aspect-ratio: 4/3;
+      background: #f0eeeb;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .card-img-placeholder {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4rem;
+      color: var(--wow-pink);
+      opacity: 0.18;
+      user-select: none;
+    }
+    .card-img .emoji {
+      font-size: 4rem;
+      opacity: 0.6;
+    }
+    .card-badge {
+      position: absolute; top: 12px; left: 12px;
+      background: var(--wow-pink); color: white;
+      font-size: 0.6rem; font-weight: 700; letter-spacing: 1.5px;
+      padding: 4px 10px; border-radius: 100px;
+      text-transform: uppercase;
+    }
+    .card-body { padding: 20px 20px 24px; }
+    .card-category {
+      font-size: 0.62rem; letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--wow-pink); font-weight: 600; margin-bottom: 6px;
+    }
+    .card-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem; letter-spacing: 1px; line-height: 1.1;
+      color: var(--wow-dark); margin-bottom: 8px;
+    }
+    .card-desc {
+      font-size: 0.8rem; color: #666; line-height: 1.6;
+      display: -webkit-box; -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical; overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .card-price {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem; color: var(--wow-dark);
+    }
+    .card-price span { font-size: 0.8rem; font-family: 'DM Sans',sans-serif; color: var(--wow-muted); font-weight: 400; }
+    .card-sizes {
+      font-size: 0.65rem; color: var(--wow-muted);
+      letter-spacing: 1px; font-weight: 500;
+    }
+    .card-order {
+      background: var(--wow-dark); color: white;
+      border: none; border-radius: 100px;
+      padding: 8px 18px; font-size: 0.72rem;
+      font-weight: 600; letter-spacing: 1px;
+      text-transform: uppercase; cursor: pointer;
+      transition: background .2s;
+    }
+    .card-order:hover { background: var(--wow-pink); }
+
+    /* ── HIGHLIGHT BANNER ── */
+    .highlight {
+      background: var(--wow-pink);
+      color: white;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; gap: 60px;
+      padding: 100px 10vw;
+    }
+    .highlight h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      line-height: 1;
+    }
+    .highlight p { font-size: 1.05rem; opacity: 0.85; line-height: 1.7; margin: 24px 0; }
+    .highlight a {
+      display: inline-block; background: white; color: var(--wow-pink);
+      padding: 14px 36px; border-radius: 100px;
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; text-decoration: none;
+      transition: transform .2s;
+    }
+    .highlight a:hover { transform: scale(1.04); }
+    .highlight-right {
+      display: flex; justify-content: center; align-items: center;
+    }
+    .big-wow {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(6rem, 14vw, 12rem);
+      -webkit-text-stroke: 3px rgba(255,255,255,0.4);
+      color: transparent;
+      line-height: 1;
+      text-align: center;
+    }
+
+    /* ── PROCESS ── */
+    .process { background: var(--wow-dark); color: white; }
+    .process .section-title { color: white; }
+    .process .section-title .outline { -webkit-text-stroke-color: white; }
+    .steps {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px; margin-top: 60px;
+    }
+    .step { text-align: center; }
+    .step-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4rem; color: var(--wow-pink);
+      line-height: 1; margin-bottom: 12px;
+    }
+    .step h3 { font-size: 0.85rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+    .step p { font-size: 0.82rem; color: rgba(255,255,255,0.5); line-height: 1.7; }
+
+    /* ── CONTACT ── */
+    .contact { background: var(--wow-off); text-align: center; }
+    .contact-box {
+      background: white; border-radius: 24px;
+      padding: 64px 48px; max-width: 680px; margin: 0 auto;
+      box-shadow: 0 8px 48px rgba(0,0,0,0.06);
+    }
+    .contact-box h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem; margin-bottom: 12px;
+    }
+    .contact-box p { color: #666; line-height: 1.7; margin-bottom: 32px; }
+    .contact-links { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; }
+    .contact-link {
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px 28px; border-radius: 100px;
+      text-decoration: none; font-size: 0.82rem; font-weight: 600;
+      letter-spacing: 1px; transition: transform .2s;
+    }
+    .contact-link:hover { transform: scale(1.04); }
+    .contact-link.whatsapp { background: #25D366; color: white; }
+    .contact-link.instagram { background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); color:white; }
+    .contact-link.email { background: var(--wow-dark); color: white; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--wow-dark); color: rgba(255,255,255,0.35);
+      text-align: center; padding: 40px 5vw;
+      font-size: 0.75rem; letter-spacing: 1px;
+    }
+    footer .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem; color: white; display: block; margin-bottom: 8px;
+    }
+    footer .footer-logo span { color: var(--wow-pink); }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: white; border-radius: 20px;
+      max-width: 520px; width: 100%; padding: 40px;
+      position: relative; max-height: 90vh; overflow-y: auto;
+    }
+    .modal-close {
+      position: absolute; top: 20px; right: 20px;
+      background: #f0f0f0; border: none; border-radius: 100px;
+      width: 32px; height: 32px; cursor: pointer; font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .modal h3 { font-family:'Bebas Neue',sans-serif; font-size:2rem; margin-bottom:8px; }
+    .modal .modal-price { font-family:'Bebas Neue',sans-serif; font-size:2.5rem; color:var(--wow-pink); margin-bottom:16px; }
+    .modal p { font-size:0.85rem; color:#555; line-height:1.7; margin-bottom:20px; }
+    .modal-actions { display:flex; gap:12px; flex-wrap:wrap; }
+    .modal-wa {
+      flex:1; background:#25D366; color:white; border:none;
+      padding:14px 24px; border-radius:100px; font-size:0.8rem;
+      font-weight:700; letter-spacing:1px; text-transform:uppercase;
+      cursor:pointer; text-decoration:none; display:flex;
+      align-items:center; justify-content:center; gap:8px;
+      transition:opacity .2s;
+    }
+    .modal-wa:hover { opacity:.88; }
+
+    /* ── HIDDEN CATEGORIES ── */
+    .cat-section { display: none; }
+    .cat-section.visible { display: block; }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:768px){
+      .nav-links { display:none; }
+      .highlight { grid-template-columns:1fr; gap:32px; padding:64px 5vw; }
+      .highlight-right { display:none; }
+      .cat-nav { top:64px; overflow-x:auto; flex-wrap:nowrap; padding:16px 5vw; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">WOW<span> Habana</span></a>
+  <ul class="nav-links">
+    <li><a href="#catalogo">Catálogo</a></li>
+    <li><a href="#proceso">¿Cómo funciona?</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <p class="hero-eyebrow">Artículos personalizados · La Habana · 2026</p>
+  <h1>WOW<span class="outline">HABANA</span></h1>
+  <p class="hero-sub">Tu diseño. Tu estilo. Tu historia.</p>
+  <a href="#catalogo" class="hero-cta">Ver catálogo completo</a>
+  <div class="hero-scroll">Explorar</div>
+</div>
+
+<!-- CATEGORY NAV -->
+<div class="cat-nav" id="catalogo">
+  <button class="cat-btn active" onclick="filterCat('all')">Todo</button>
+  <button class="cat-btn" onclick="filterCat('textiles')">👕 Textiles</button>
+  <button class="cat-btn" onclick="filterCat('bolsos')">👜 Bolsos</button>
+  <button class="cat-btn" onclick="filterCat('tazas')">☕ Tazas</button>
+  <button class="cat-btn" onclick="filterCat('termos')">🧴 Termos & Botellas</button>
+  <button class="cat-btn" onclick="filterCat('decoracion')">🏠 Decoración</button>
+  <button class="cat-btn" onclick="filterCat('accesorios')">🔑 Accesorios</button>
+  <button class="cat-btn" onclick="filterCat('regalos')">🎁 Regalos</button>
+</div>
+
+<!-- PRODUCTS -->
+<section class="products-section">
+  <div class="products-grid" id="grid">
+
+    <!-- TEXTILES -->
+    <div class="card" data-cat="textiles">
+      <div class="card-img"><span class="emoji">👕</span><span class="card-badge">Dry Fit</span></div>
+      <div class="card-body">
+        <div class="card-category">Textiles</div>
+        <div class="card-name">Pullover Blanco</div>
+        <div class="card-desc">Pullover unisex con tejido Dry Fit, ideal para mantenerte fresco y cómodo todo el día. Diseño versátil con personalización en vinilo textil.</div>
+        <div class="card-footer">
+          <div><div class="card-price">2 300 <span>CUP</span></div><div class="card-sizes">S · M · L · XL</div></div>
+          <button class="card-order" onclick="openModal('Pullover Blanco','2 300 CUP','Pullover unisex con tejido Dry Fit, ideal para mantenerte fresco y cómodo todo el día. Personalización en vinilo textil (logos, tipografías y diseños vectoriales). Tallas: S, M, L, XL.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="textiles">
+      <div class="card-img"><span class="emoji">🖤</span><span class="card-badge">Dry Fit</span></div>
+      <div class="card-body">
+        <div class="card-category">Textiles</div>
+        <div class="card-name">Pullover Negro</div>
+        <div class="card-desc">Tejido Dry Fit negro, diseñado para mantenerte cómodo y fresco. Personalizable con vinilo textil para un look único. Ideal para entrenar o uso casual.</div>
+        <div class="card-footer">
+          <div><div class="card-price">2 950 <span>CUP</span></div><div class="card-sizes">S · M · L · XL</div></div>
+          <button class="card-order" onclick="openModal('Pullover Negro','2 950 CUP','Tejido Dry Fit negro, diseñado para mantenerte cómodo y fresco. Personalizable con vinilo textil. Nota: solo logos, tipografías y diseños vectoriales. Tallas: S, M, L, XL.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="textiles">
+      <div class="card-img"><span class="emoji">👧</span></div>
+      <div class="card-body">
+        <div class="card-category">Textiles</div>
+        <div class="card-name">Pullover para Niños</div>
+        <div class="card-desc">Dry Fit suave y fresco para los más pequeños. Perfecto para el colegio o actividades diarias. Personalizable con el diseño que prefieras.</div>
+        <div class="card-footer">
+          <div><div class="card-price">1 700 <span>CUP</span></div><div class="card-sizes">2 · 4 · 6 · 8 · 10 años</div></div>
+          <button class="card-order" onclick="openModal('Pullover para Niños','1 700 CUP','Dry Fit suave y fresco para los más pequeños. Personalizable con el diseño que prefieras. Tallas: 2, 4, 6, 8 y 10 años.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="textiles">
+      <div class="card-img"><span class="emoji">✨</span></div>
+      <div class="card-body">
+        <div class="card-category">Textiles</div>
+        <div class="card-name">Pullover Spandex</div>
+        <div class="card-desc">Tela Spandex premium, ajuste perfecto, frescura y libertad de movimiento. Disponible en corte caballero y corte dama.</div>
+        <div class="card-footer">
+          <div><div class="card-price">2 950 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Pullover Spandex','2 950 CUP','Tela Spandex premium. Ajuste perfecto, frescura y libertad de movimiento. Disponible en Corte Caballero (casual y deportivo) y Corte Dama (silueta entallada). Perfectos para parejas o equipos.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="textiles">
+      <div class="card-img"><span class="emoji">👔</span></div>
+      <div class="card-body">
+        <div class="card-category">Textiles</div>
+        <div class="card-name">Polo Unisex</div>
+        <div class="card-desc">Algodón con cuello. Versátil y cómodo, ideal para el trabajo, eventos o un día casual con un toque elegante y distintivo.</div>
+        <div class="card-footer">
+          <div><div class="card-price">3 950 <span>CUP</span></div><div class="card-sizes">L · XL · 2XL</div></div>
+          <button class="card-order" onclick="openModal('Polo Unisex','3 950 CUP','Algodón con cuello. Tejido suave y transpirable. Diseño clásico con toque elegante. Personalizable con el diseño que prefieras. Tallas: L, XL, 2XL.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="textiles">
+      <div class="card-img"><span class="emoji">🤍</span><span class="card-badge">Manga Larga</span></div>
+      <div class="card-body">
+        <div class="card-category">Textiles</div>
+        <div class="card-name">Enguatada Blanca</div>
+        <div class="card-desc">Dry Fit ligera y transpirable. Protege tu piel del sol con estilo. Personalizable con el diseño de tu elección.</div>
+        <div class="card-footer">
+          <div><div class="card-price">3 200 <span>CUP</span></div><div class="card-sizes">S · M · L · XL</div></div>
+          <button class="card-order" onclick="openModal('Enguatada Blanca','3 200 CUP','Dry Fit ligera y transpirable. Protege tu piel del sol. Personalizable con el diseño de tu elección. Tallas: S, M, L, XL.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="textiles">
+      <div class="card-img"><span class="emoji">🖤</span><span class="card-badge">Manga Larga</span></div>
+      <div class="card-body">
+        <div class="card-category">Textiles</div>
+        <div class="card-name">Enguatada Negra</div>
+        <div class="card-desc">Dry Fit negra de manga larga. Estilo y funcionalidad. Personalizable con vinilo textil. Nota: solo logos, tipografías y diseños vectoriales.</div>
+        <div class="card-footer">
+          <div><div class="card-price">3 600 <span>CUP</span></div><div class="card-sizes">S · M · L · XL</div></div>
+          <button class="card-order" onclick="openModal('Enguatada Negra','3 600 CUP','Dry Fit negra de manga larga. Estilo y funcionalidad. Personalizable con vinilo textil. Tallas: S, M, L, XL. Nota: solo logos, tipografías y diseños vectoriales.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="textiles">
+      <div class="card-img"><span class="emoji">🌸</span></div>
+      <div class="card-body">
+        <div class="card-category">Textiles</div>
+        <div class="card-name">Top Tank Blanco</div>
+        <div class="card-desc">Fresco y con estilo. Ideal para días calurosos o sesiones de ejercicio. Personalizable con el diseño que elijas.</div>
+        <div class="card-footer">
+          <div><div class="card-price">3 400 <span>CUP</span></div><div class="card-sizes">XS · S · M · L</div></div>
+          <button class="card-order" onclick="openModal('Top Tank Blanco','3 400 CUP','Fresco y con estilo. Ideal para días calurosos o sesiones de ejercicio. Personalizable con el diseño que elijas. Tallas: XS, S, M, L.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="textiles">
+      <div class="card-img"><span class="emoji">🖤</span></div>
+      <div class="card-body">
+        <div class="card-category">Textiles</div>
+        <div class="card-name">Top Tank Negro</div>
+        <div class="card-desc">Look moderno y corto. Personalizable con vinilo textil. Comodidad y diseño en una prenda única.</div>
+        <div class="card-footer">
+          <div><div class="card-price">3 800 <span>CUP</span></div><div class="card-sizes">XS · S · M · L</div></div>
+          <button class="card-order" onclick="openModal('Top Tank Negro','3 800 CUP','Look moderno y corto. Personalizable con vinilo textil. Tallas: XS, S, M, L. Nota: solo logos, tipografías y diseños vectoriales.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="textiles">
+      <div class="card-img"><span class="emoji">🩳</span></div>
+      <div class="card-body">
+        <div class="card-category">Textiles</div>
+        <div class="card-name">Short Unisex Blanco</div>
+        <div class="card-desc">Dry Fit ligero, perfecto para entrenar o el día a día. Personalizable con tu diseño favorito.</div>
+        <div class="card-footer">
+          <div><div class="card-price">2 500 <span>CUP</span></div><div class="card-sizes">S · M · L · XL</div></div>
+          <button class="card-order" onclick="openModal('Short Unisex Blanco','2 500 CUP','Dry Fit blanco. Comodidad y frescura. Personalizable con tu diseño favorito. Tallas: S, M, L, XL.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="textiles">
+      <div class="card-img"><span class="emoji">🩳</span></div>
+      <div class="card-body">
+        <div class="card-category">Textiles</div>
+        <div class="card-name">Short Unisex Negro</div>
+        <div class="card-desc">Dry Fit negro. Combinación perfecta de comodidad y estilo. Personalizable con vinilo textil para entrenar o uso diario.</div>
+        <div class="card-footer">
+          <div><div class="card-price">2 950 <span>CUP</span></div><div class="card-sizes">S · M · L · XL</div></div>
+          <button class="card-order" onclick="openModal('Short Unisex Negro','2 950 CUP','Dry Fit negro. Personalizable con vinilo textil. Tallas: S, M, L, XL. Nota: solo logos, tipografías y diseños vectoriales.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="textiles">
+      <div class="card-img"><span class="emoji">👒</span></div>
+      <div class="card-body">
+        <div class="card-category">Textiles</div>
+        <div class="card-name">Gorra Trucker Premium</div>
+        <div class="card-desc">Frente de espuma blanco con malla trasera de color. Cierre snapback ajustable. Disponible en Rojo, Azul, Negro, Verde y Amarillo.</div>
+        <div class="card-footer">
+          <div><div class="card-price">2 300 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Gorra Trucker Premium','2 300 CUP','Frente de espuma blanco ideal para logos. Malla trasera de color, máxima ventilación. Cierre snapback ajustable. Colores: Rojo, Azul, Negro, Verde y Amarillo.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="textiles">
+      <div class="card-img"><span class="emoji">🍽️</span></div>
+      <div class="card-body">
+        <div class="card-category">Textiles</div>
+        <div class="card-name">Delantal Negro</div>
+        <div class="card-desc">Para tu casa, para tu negocio. Personalizable con logos, tipografías y diseños vectoriales.</div>
+        <div class="card-footer">
+          <div><div class="card-price">2 350 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Delantal Negro','2 350 CUP','Delantal negro para tu casa o tu negocio. Personalizable con logos, tipografías y diseños vectoriales.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="textiles">
+      <div class="card-img"><span class="emoji">🍽️</span></div>
+      <div class="card-body">
+        <div class="card-category">Textiles</div>
+        <div class="card-name">Delantal Blanco</div>
+        <div class="card-desc">Colócale cualquier diseño, logotipos, imágenes o fotografías. ¡El límite es tu imaginación!</div>
+        <div class="card-footer">
+          <div><div class="card-price">1 950 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Delantal Blanco','1 950 CUP','Delantal blanco. Personalizable con cualquier diseño, logotipos, imágenes o fotografías.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOLSOS -->
+    <div class="card" data-cat="bolsos">
+      <div class="card-img"><span class="emoji">🌿</span></div>
+      <div class="card-body">
+        <div class="card-category">Bolsos</div>
+        <div class="card-name">Bolsa de Yute</div>
+        <div class="card-desc">30×35 cm. Vinilo textil de alta calidad. Tipografías, logotipos e ilustraciones lineales. Elige color, tamaño y posición de tu diseño.</div>
+        <div class="card-footer">
+          <div><div class="card-price">3 100 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Bolsa de Yute','3 100 CUP','30×35 cm. Vinilo textil de alta calidad. Tipografías únicas, logotipos e ilustraciones lineales. Elige color, tamaño y posición de tu diseño. No apta para impresiones fotográficas.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="bolsos">
+      <div class="card-img"><span class="emoji">🌿</span><span class="card-badge">XL</span></div>
+      <div class="card-body">
+        <div class="card-category">Bolsos</div>
+        <div class="card-name">Bolsa Yute XL</div>
+        <div class="card-desc">30×40 cm. Estructura reforzada más resistente y elegante. Encanto natural del yute con capacidad extra.</div>
+        <div class="card-footer">
+          <div><div class="card-price">4 500 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Bolsa Yute XL','4 500 CUP','30×40 cm. Cuando necesitas espacio pero no quieres perder el estilo. Estructura reforzada, más resistente y elegante.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="bolsos">
+      <div class="card-img"><span class="emoji">🏝️</span></div>
+      <div class="card-body">
+        <div class="card-category">Bolsos</div>
+        <div class="card-name">Línea Horizon</div>
+        <div class="card-desc">40×45 cm. Lienzo con acentos de yute, asas estampadas y detalles metálicos. Bolsillo exterior. Versatilidad y personalidad.</div>
+        <div class="card-footer">
+          <div><div class="card-price">5 000 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Bolsa Línea Horizon','5 000 CUP','40×45 cm. Combina la frescura del lienzo con acentos de yute, asas estampadas y detalles metálicos. Bolsillo exterior. Ideal para ilustraciones minimalistas, tipografías o logos.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="bolsos">
+      <div class="card-img"><span class="emoji">🌑</span></div>
+      <div class="card-body">
+        <div class="card-category">Bolsos</div>
+        <div class="card-name">Bolsa Eclipse</div>
+        <div class="card-desc">Contraste blanco y negro. Asas con patrón geométrico. Bolsillo frontal contrastante ideal para logos. Actitud urbana.</div>
+        <div class="card-footer">
+          <div><div class="card-price">5 000 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Bolsa Línea Eclipse','5 000 CUP','Equilibrio blanco y negro. Dos versiones: cuerpo oscuro con bolsillo claro, o cuerpo claro con bolsillo oscuro. Asas con patrón geométrico. Personalizable con vinilo textil.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="bolsos">
+      <div class="card-img"><span class="emoji">🎀</span></div>
+      <div class="card-body">
+        <div class="card-category">Bolsos</div>
+        <div class="card-name">Bolsa Coquet Clasic</div>
+        <div class="card-desc">30×40 cm. Lazo de raso disponible en 6 colores. Bolsillo frontal personalizable con tus iniciales o diseño.</div>
+        <div class="card-footer">
+          <div><div class="card-price">2 600 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Bolsa Coquet Clasic','2 600 CUP','30×40 cm. Elige tu lazo favorito entre 6 colores. Bolsillo frontal personalizable con tu propio diseño o iniciales. Práctica, exclusiva y lista para combinar con todo.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="bolsos">
+      <div class="card-img"><span class="emoji">🎀</span><span class="card-badge">XL</span></div>
+      <div class="card-body">
+        <div class="card-category">Bolsos</div>
+        <div class="card-name">Coquet XL</div>
+        <div class="card-desc">40×40 cm. Lazo de raso elegante. Bolsillo frontal 100% personalizable. Una pieza que nadie más tendrá.</div>
+        <div class="card-footer">
+          <div><div class="card-price">3 000 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Bolsa Coquet XL','3 000 CUP','40×40 cm. Lazo de raso elegante. Bolsillo frontal 100% personalizable. Plasma tu arte, diseño o iniciales.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="bolsos">
+      <div class="card-img"><span class="emoji">🛍️</span></div>
+      <div class="card-body">
+        <div class="card-category">Bolsos</div>
+        <div class="card-name">Bolsa Lienzo</div>
+        <div class="card-desc">12×14 pulgadas. Ideal para el día a día. Personalizable con el diseño que más te guste. Perfecta para compras y paseos.</div>
+        <div class="card-footer">
+          <div><div class="card-price">1 950 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Bolsa Lienzo','1 950 CUP','12×14 pulgadas. Personalizable con el diseño que más te guste. Perfecta para compras, paseos o para dar un toque personal a tus looks.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="bolsos">
+      <div class="card-img"><span class="emoji">🏃</span></div>
+      <div class="card-body">
+        <div class="card-category">Bolsos</div>
+        <div class="card-name">Cangurera de Lienzo</div>
+        <div class="card-desc">Diseño ovalado minimalista. Correa ajustable, broche de alta resistencia. Disponible en crudo, negro y crudo con ribetes oscuros.</div>
+        <div class="card-footer">
+          <div><div class="card-price">2 500 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Cangurera de Lienzo','2 500 CUP','Diseño ovalado minimalista. Correa ajustable. Broche de alta resistencia. Disponible en: crudo natural, negro total y crudo con ribetes oscuros. Personalizable al frente.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="bolsos">
+      <div class="card-img"><span class="emoji">🏃</span></div>
+      <div class="card-body">
+        <div class="card-category">Bolsos</div>
+        <div class="card-name">Cangurera Classic Doble Cierre</div>
+        <div class="card-desc">Dos compartimentos frontales con cremallera. Lienzo resistente, correa ajustable. Disponible en negro y crudo natural.</div>
+        <div class="card-footer">
+          <div><div class="card-price">2 500 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Cangurera Classic Doble Cierre','2 500 CUP','Dos compartimentos frontales con cremallera. Lienzo resistente. Correa ajustable. Disponible en negro elegante y crudo natural. Personaliza el bolsillo frontal.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="bolsos">
+      <div class="card-img"><span class="emoji">🎒</span></div>
+      <div class="card-body">
+        <div class="card-category">Bolsos</div>
+        <div class="card-name">Mochila de Cordón</div>
+        <div class="card-desc">Poliéster ligero. Fácil de personalizar con tu diseño favorito. Perfecta para el día a día, gimnasio o paseos.</div>
+        <div class="card-footer">
+          <div><div class="card-price">2 400 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Mochila de Cordón','2 400 CUP','Poliéster ligero con asas de cordón. Fácil de personalizar con tu diseño favorito. Perfecta para el día a día, gimnasio o paseos.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="bolsos">
+      <div class="card-img"><span class="emoji">🎒</span><span class="card-badge">Urbana</span></div>
+      <div class="card-body">
+        <div class="card-category">Bolsos</div>
+        <div class="card-name">Mochila Urbana Negra</div>
+        <div class="card-desc">Diseño minimalista y textura suave. Compartimento principal + bolsillo frontal con cierre. Ligera, moderna, lista para la ciudad.</div>
+        <div class="card-footer">
+          <div><div class="card-price">5 000 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Mochila Urbana Negra','5 000 CUP','Negro profundo. Diseño minimalista. Compartimento principal para tus esenciales y bolsillo frontal con cierre para acceso rápido. Ideal para logos en blanco o neón.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="bolsos">
+      <div class="card-img"><span class="emoji">👛</span></div>
+      <div class="card-body">
+        <div class="card-category">Bolsos</div>
+        <div class="card-name">Billetera de Caballero</div>
+        <div class="card-desc">Interior en piel sintética negra. Ranuras para tarjetas, compartimento para billetes y bolsillo monedero con broche. Frente personalizable.</div>
+        <div class="card-footer">
+          <div><div class="card-price">5 950 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Billetera de Caballero','5 950 CUP','Interior en piel sintética negra de alta resistencia. Múltiples ranuras para tarjetas, compartimento para billetes y bolsillo monedero con broche. Frente totalmente personalizable.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="bolsos">
+      <div class="card-img"><span class="emoji">👜</span></div>
+      <div class="card-body">
+        <div class="card-category">Bolsos</div>
+        <div class="card-name">Cartera de Mano con Asa</div>
+        <div class="card-desc">Tipo wristlet. Superficie texturizada blanca, cremallera dorada. Asa de muñeca desmontable. Espaciosa y lista para lucir tu diseño.</div>
+        <div class="card-footer">
+          <div><div class="card-price">4 950 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Cartera de Mano con Asa','4 950 CUP','Tipo wristlet. Superficie texturizada blanca de alta definición, cremallera dorada. Asa de muñeca desmontable. Úsala como bolso de mano o como organizador dentro de tu bolso principal.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAZAS -->
+    <div class="card" data-cat="tazas">
+      <div class="card-img"><span class="emoji">☕</span></div>
+      <div class="card-body">
+        <div class="card-category">Tazas</div>
+        <div class="card-name">Taza Blanca Recta</div>
+        <div class="card-desc">Cerámica. Haz de cada sorbo algo especial. Perfecta para café, té o cualquier bebida. 100% personalizable.</div>
+        <div class="card-footer">
+          <div><div class="card-price">1 400 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Taza Blanca Recta','1 400 CUP','Taza recta de cerámica. Haz de cada sorbo algo especial. Elige el diseño que más te guste y crea un artículo único para ti o para regalar.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="tazas">
+      <div class="card-img"><span class="emoji">🪄</span><span class="card-badge">Mágica</span></div>
+      <div class="card-body">
+        <div class="card-category">Tazas</div>
+        <div class="card-name">Taza Mágica</div>
+        <div class="card-desc">Taza negra mate que al recibir una bebida caliente revela tu foto o diseño oculto. Perfecta para sorpresas y propuestas.</div>
+        <div class="card-footer">
+          <div><div class="card-price">1 500 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Taza Mágica','1 500 CUP','A primera vista, una elegante taza negra mate. Al servir la bebida caliente, el color negro se desvanece para revelar tu foto, mensaje o diseño especial.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="tazas">
+      <div class="card-img"><span class="emoji">❤️</span></div>
+      <div class="card-body">
+        <div class="card-category">Tazas</div>
+        <div class="card-name">Taza Asa Corazón Rojo</div>
+        <div class="card-desc">Cerámica de alto brillo con interior y asa en forma de corazón color rojo. 11oz. Diseño exclusivo que enmarca tus fotos con calidez.</div>
+        <div class="card-footer">
+          <div><div class="card-price">1 600 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Taza Asa Corazón Rojo','1 600 CUP','Cerámica de alto brillo con interior y asa ergonómica en forma de corazón color rojo. 11oz. Resistente y lista para enamorar.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="tazas">
+      <div class="card-img"><span class="emoji">🤍</span></div>
+      <div class="card-body">
+        <div class="card-category">Tazas</div>
+        <div class="card-name">Taza Blanca Asa Corazón</div>
+        <div class="card-desc">Cerámica 100% blanca. Máxima fidelidad de colores. Asa de corazón sutil y elegante. El clásico, reinventado.</div>
+        <div class="card-footer">
+          <div><div class="card-price">1 450 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Taza Blanca Asa Corazón','1 450 CUP','Cerámica 100% blanca. Garantiza máxima fidelidad y brillo en los colores de tu diseño. Asa de corazón discreta y elegante.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="tazas">
+      <div class="card-img"><span class="emoji">🥇</span></div>
+      <div class="card-body">
+        <div class="card-category">Tazas</div>
+        <div class="card-name">Taza Interior Metalizado</div>
+        <div class="card-desc">Recubrimiento interior brillante en Oro Premium o Plateado Moderno. 11oz. Transforma cualquier logo en un regalo exclusivo.</div>
+        <div class="card-footer">
+          <div><div class="card-price">2 900 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Taza Interior Metalizado (Oro/Plata)','2 900 CUP','Recubrimiento interior metálico brillante. Elige entre Dorado Premium o Plateado Moderno. 11oz. Misma calidad, dos formas de brillar.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="tazas">
+      <div class="card-img"><span class="emoji">✨</span><span class="card-badge">Mirror</span></div>
+      <div class="card-body">
+        <div class="card-category">Tazas</div>
+        <div class="card-name">Taza Mirror Finish</div>
+        <div class="card-desc">Acabado espejo exterior completo en Oro o Plata. Un trofeo de escritorio. Imposible de ignorar.</div>
+        <div class="card-footer">
+          <div><div class="card-price">2 300 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Taza Metalizada Mirror Finish','2 300 CUP','Recubrimiento exterior completo en acabado espejo. Disponible en Oro o Plata. Los colores de tu diseño se fusionan con el metal base creando efectos visuales únicos.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="tazas">
+      <div class="card-img"><span class="emoji">🎨</span></div>
+      <div class="card-body">
+        <div class="card-category">Tazas</div>
+        <div class="card-name">Taza Bicolor</div>
+        <div class="card-desc">Exterior blanco + interior y asa a juego. 11oz. Disponible en Azul Cielo, Morado Intenso y Rosa Pastel.</div>
+        <div class="card-footer">
+          <div><div class="card-price">1 600 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Taza Bicolor','1 600 CUP','11oz. Exterior blanco puro para impresión perfecta. Interior y asa a juego vibrante. Disponible en: Azul Cielo, Morado Intenso y Rosa Pastel.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="tazas">
+      <div class="card-img"><span class="emoji">🖤</span></div>
+      <div class="card-body">
+        <div class="card-category">Tazas</div>
+        <div class="card-name">Taza Negra 11oz</div>
+        <div class="card-desc">Cerámica negra con acabado brillante. Fondo sofisticado que hace vibrar los diseños en colores claros. Elegancia que nunca pasa de moda.</div>
+        <div class="card-footer">
+          <div><div class="card-price">2 300 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Taza Negra 11oz','2 300 CUP','Cerámica negra con acabado brillante. Ideal para logotipos minimalistas, frases contundentes o marcas que buscan proyectar fuerza y exclusividad.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="tazas">
+      <div class="card-img"><span class="emoji">💑</span><span class="card-badge">Set 2</span></div>
+      <div class="card-body">
+        <div class="card-category">Tazas</div>
+        <div class="card-name">Taza de Pareja</div>
+        <div class="card-desc">Set de dos tazas con asa de corazón que se unen en un abrazo perfecto. Diseños complementarios. La definición de "mejor juntos".</div>
+        <div class="card-footer">
+          <div><div class="card-price">5 000 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Taza de Pareja (Set x2)','5 000 CUP','Set de dos tazas blancas con asas de corazón. Su silueta curva permite que se unan en un abrazo perfecto. Ideal para frases que empiezan en una y terminan en la otra.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="tazas">
+      <div class="card-img"><span class="emoji">☕</span></div>
+      <div class="card-body">
+        <div class="card-category">Tazas</div>
+        <div class="card-name">Taza de Expresso</div>
+        <div class="card-desc">Cerámica. Set taza y plato. Personalizable con logo, frase o diseño favorito. Perfecta para amantes del buen café.</div>
+        <div class="card-footer">
+          <div><div class="card-price">2 950 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Taza de Expresso','2 950 CUP','Cerámica. Incluye taza y plato. Personalizable con tu logo, frase o diseño favorito. Para amantes del buen café y el diseño exclusivo.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="tazas">
+      <div class="card-img"><span class="emoji">☕</span><span class="card-badge">Set x4</span></div>
+      <div class="card-body">
+        <div class="card-category">Tazas</div>
+        <div class="card-name">Set 4 Tazas Apilables + Soporte</div>
+        <div class="card-desc">4 tazas de cerámica + soporte vertical cromado de 26 cm. Perfectas para familias, oficinas o estaciones de café.</div>
+        <div class="card-footer">
+          <div><div class="card-price">7 950 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Set 4 Tazas Apilables + Soporte Metálico','7 950 CUP','4 tazas de cerámica personalizadas con soporte vertical cromado de 26cm. Mantén tus tazas siempre a mano y exhibe tu diseño en la encimera.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="tazas">
+      <div class="card-img"><span class="emoji">🥤</span></div>
+      <div class="card-body">
+        <div class="card-category">Tazas</div>
+        <div class="card-name">Vaso con Absorbente</div>
+        <div class="card-desc">Cristal con degradado amarillo y absorbente. Personalizable con logos o tipografías. Nota: no apto para estampados fotográficos.</div>
+        <div class="card-footer">
+          <div><div class="card-price">2 550 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Vaso con Absorbente','2 550 CUP','Cristal con degradado amarillo y absorbente. Personalizable con logos o tipografías únicas. No apto para estampados fotográficos.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="tazas">
+      <div class="card-img"><span class="emoji">🛖</span></div>
+      <div class="card-body">
+        <div class="card-category">Tazas</div>
+        <div class="card-name">Portavasos Redondo</div>
+        <div class="card-desc">Superficie blanca de alta definición. Base de goma negra antideslizante. Resistente al calor y humedad. Logo destacado con nitidez.</div>
+        <div class="card-footer">
+          <div><div class="card-price">950 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Portavasos Redondo','950 CUP','Superficie blanca de alta definición para logos nítidos. Base de goma negra antideslizante. Resistente al calor y humedad.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="tazas">
+      <div class="card-img"><span class="emoji">🚬</span></div>
+      <div class="card-body">
+        <div class="card-category">Tazas</div>
+        <div class="card-name">Cenicero Premium</div>
+        <div class="card-desc">Cerámica blanca de alta densidad. Tres muescas, superficie lisa y brillante. Personalizable con logo. Ideal para bares y hogares.</div>
+        <div class="card-footer">
+          <div><div class="card-price">2 400 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Cenicero de Cerámica Premium','2 400 CUP','Cerámica blanca de alta densidad. Superficie lisa y brillante. Diseño robusto con tres muescas. Ideal para bares, terrazas o el hogar.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TERMOS -->
+    <div class="card" data-cat="termos">
+      <div class="card-img"><span class="emoji">🧴</span></div>
+      <div class="card-body">
+        <div class="card-category">Termos & Botellas</div>
+        <div class="card-name">Jarra Térmica 15oz</div>
+        <div class="card-desc">Metalizada 15oz. Personalizable con logotipos, stickers o infografías. Mantiene el calor o el frío por largo tiempo.</div>
+        <div class="card-footer">
+          <div><div class="card-price">6 000 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Jarra Térmica Metalizada 15oz','6 000 CUP','Metalizada 15oz. Personalizable con logotipos, stickers o infografías. Mantiene el calor o el frío por un largo tiempo. No se recomienda colocar fotografías.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="termos">
+      <div class="card-img"><span class="emoji">💧</span></div>
+      <div class="card-body">
+        <div class="card-category">Termos & Botellas</div>
+        <div class="card-name">Botella Deportiva 750ml</div>
+        <div class="card-desc">Ligera y resistente. Tapa de rosca segura. Mosquetón integrado. Para el gimnasio, la oficina o al aire libre.</div>
+        <div class="card-footer">
+          <div><div class="card-price">3 700 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Botella Deportiva 750ml','3 700 CUP','Botella ligera y resistente de 750ml. Tapa de rosca segura. Mosquetón integrado para colgar en mochila o cinturón. Personalizable con tu marca.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="termos">
+      <div class="card-img"><span class="emoji">🧊</span></div>
+      <div class="card-body">
+        <div class="card-category">Termos & Botellas</div>
+        <div class="card-name">Botella Térmica Pico Sport 15oz</div>
+        <div class="card-desc">Acero inoxidable doble pared. Boquilla retráctil y sorbete interno. Mantiene bebidas heladas o calientes por horas.</div>
+        <div class="card-footer">
+          <div><div class="card-price">4 800 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Botella Térmica Pico Sport 15oz','4 800 CUP','Acero inoxidable de doble pared. Boquilla retráctil y sorbete interno para beber sin inclinar. Mantiene bebidas heladas o calientes sin importar el clima.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="termos">
+      <div class="card-img"><span class="emoji">♨️</span></div>
+      <div class="card-body">
+        <div class="card-category">Termos & Botellas</div>
+        <div class="card-name">Termo con Taza Integrada</div>
+        <div class="card-desc">Acero inoxidable doble pared. Sistema válvula "push". La tapa se convierte en una práctica taza. Acabado blanco brillante.</div>
+        <div class="card-footer">
+          <div><div class="card-price">6 900 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Termo con Taza Integrada','6 900 CUP','Acero inoxidable de doble pared. Sistema de válvula push, servido limpio y sin fugas. La tapa exterior se convierte en una taza. Acabado blanco brillante personalizable.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- DECORACIÓN -->
+    <div class="card" data-cat="decoracion">
+      <div class="card-img"><span class="emoji">🛋️</span></div>
+      <div class="card-body">
+        <div class="card-category">Decoración</div>
+        <div class="card-name">Cojín Clásico 40×40cm</div>
+        <div class="card-desc">Blanco puro (para fotos a todo color) o Negro Elegante (para vinilo). Relleno mullido, funda suave. El regalo más "abrazable".</div>
+        <div class="card-footer">
+          <div><div class="card-price">3 300 <span>CUP</span></div><div class="card-sizes">Negro: 3 900 CUP</div></div>
+          <button class="card-order" onclick="openModal('Cojín Clásico 40×40cm','3 300 – 3 900 CUP','Disponible en Blanco Puro (3 300 CUP, impresiones fotográficas) o Negro Elegante (3 900 CUP, vinilo textil o acabados premium). Relleno mullido, funda suave. 40×40cm.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="decoracion">
+      <div class="card-img"><span class="emoji">❤️</span></div>
+      <div class="card-body">
+        <div class="card-category">Decoración</div>
+        <div class="card-name">Cojín Corazón</div>
+        <div class="card-desc">Silueta romántica de 40cm. Blanco para fotos o Rojo Pasión para mensajes de amor. Suave al tacto. Ideal para aniversarios.</div>
+        <div class="card-footer">
+          <div><div class="card-price">3 300 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Cojín Corazón','3 300 CUP','Silueta romántica de 40cm. Elige el Blanco para plasmar fotos o el Rojo Pasión para un mensaje de amor. Suave al tacto.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="decoracion">
+      <div class="card-img"><span class="emoji">🖼️</span></div>
+      <div class="card-body">
+        <div class="card-category">Decoración</div>
+        <div class="card-name">Lienzo Artístico 24×16"</div>
+        <div class="card-desc">Aprox. 60×40cm. Textura de tela auténtica sobre bastidor de madera. Acabado mate antirreflejos. Listo para colgar.</div>
+        <div class="card-footer">
+          <div><div class="card-price">5 000 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Lienzo Artístico 24×16\"','5 000 CUP','Aprox. 60×40cm. Textura de tela auténtica sobre bastidor de madera robusto. Acabado mate antirreflejos. Listo para colgar. Ideal para retratos, bodas o paisajes.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="decoracion">
+      <div class="card-img"><span class="emoji">🕐</span></div>
+      <div class="card-body">
+        <div class="card-category">Decoración</div>
+        <div class="card-name">Reloj de Sobremesa</div>
+        <div class="card-desc">Material rígido de alto brillo. Mecanismo silencioso. Formatos: Redondo, Rectangular o Cuadrado vintage con bordes festoneados.</div>
+        <div class="card-footer">
+          <div><div class="card-price">4 500 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Reloj de Sobremesa Personalizado','4 500 CUP','Material rígido de alto brillo. Mecanismo silencioso ideal para oficinas o dormitorios. Formatos: Redondo (clásico), Rectangular (panorámico) y Cuadrado (estilo vintage).')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="decoracion">
+      <div class="card-img"><span class="emoji">🛁</span></div>
+      <div class="card-body">
+        <div class="card-category">Decoración</div>
+        <div class="card-name">Toalla de Manos 30×60</div>
+        <div class="card-desc">Suave, absorbente y personalizable con nombres, iniciales o diseños especiales. Perfecta para el baño o como regalo.</div>
+        <div class="card-footer">
+          <div><div class="card-price">1 800 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Toalla de Manos 30×60cm','1 800 CUP','Toalla de manos 30×60cm. Suave, absorbente, alta calidad. Personalizable con nombres, iniciales o diseños especiales.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="decoracion">
+      <div class="card-img"><span class="emoji">🛁</span></div>
+      <div class="card-body">
+        <div class="card-category">Decoración</div>
+        <div class="card-name">Toalla de Baño 120×60</div>
+        <div class="card-desc">Lujosa toalla 120×60cm. Textura suave y altamente absorbente. Personalizable con nombres, iniciales o diseños únicos.</div>
+        <div class="card-footer">
+          <div><div class="card-price">5 200 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Toalla de Baño 120×60cm','5 200 CUP','120×60cm. Textura suave y altamente absorbente. Personalizable con nombres, iniciales o diseños únicos. Ideal para uso personal o como regalo especial.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="decoracion">
+      <div class="card-img"><span class="emoji">🧹</span></div>
+      <div class="card-body">
+        <div class="card-category">Decoración</div>
+        <div class="card-name">Toalla Microfibra 30×30</div>
+        <div class="card-desc">Ultra absorbente, secado rápido. Disponible en Amarillo, Naranja y Verde. Perfecta para el gimnasio, facial o limpieza.</div>
+        <div class="card-footer">
+          <div><div class="card-price">800 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Toalla Microfibra Multiuso 30×30cm','800 CUP','Microfibra de alta densidad. Absorción superior, secado rápido. 30×30cm. Disponible en Amarillo, Naranja y Verde. Ideal para gimnasio, uso facial o limpieza.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACCESORIOS -->
+    <div class="card" data-cat="accesorios">
+      <div class="card-img"><span class="emoji">📌</span></div>
+      <div class="card-body">
+        <div class="card-category">Accesorios</div>
+        <div class="card-name">Botones (Pines)</div>
+        <div class="card-desc">Impresión brillante de alta nitidez. Tamaños: 44mm (200 CUP), 55mm (300 CUP) y 75mm Jumbo (400 CUP).</div>
+        <div class="card-footer">
+          <div><div class="card-price">desde 200 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Botones (Pines)','200 / 300 / 400 CUP','Impresión brillante de alta nitidez. Tamaños: 44mm (200 CUP) – Discreto para solapas. 55mm (300 CUP) – Estándar ideal para logos. 75mm (400 CUP) – Jumbo, máxima visibilidad.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="accesorios">
+      <div class="card-img"><span class="emoji">🗝️</span></div>
+      <div class="card-body">
+        <div class="card-category">Accesorios</div>
+        <div class="card-name">Llavero Abrebotellas</div>
+        <div class="card-desc">75mm de diámetro. Gran área de impresión para logos. Reverso metálico con destapador de botellas. Resistente y siempre útil.</div>
+        <div class="card-footer">
+          <div><div class="card-price">600 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Llavero Abrebotellas','600 CUP','75mm. Gran área de impresión para logos visibles a distancia. Reverso metálico con destapador de botellas robusto. Resistente y práctico.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="accesorios">
+      <div class="card-img"><span class="emoji">🗝️</span></div>
+      <div class="card-body">
+        <div class="card-category">Accesorios</div>
+        <div class="card-name">Llaveros MDF</div>
+        <div class="card-desc">Formas: círculo, rectángulo y hueso. Personalizables con logos, nombres o mensajes especiales. El detalle perfecto para regalar.</div>
+        <div class="card-footer">
+          <div><div class="card-price">850 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Llaveros MDF','850 CUP','Llaveros de MDF en formas de círculo, rectángulo y hueso. Personalízalos con logos, nombres o mensajes especiales.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="accesorios">
+      <div class="card-img"><span class="emoji">📝</span></div>
+      <div class="card-body">
+        <div class="card-category">Accesorios</div>
+        <div class="card-name">Cuaderno Personalizado</div>
+        <div class="card-desc">Anota tus ideas con estilo. Portada y contraportada personalizables. Perfecto para estudiantes, creativos o profesionales.</div>
+        <div class="card-footer">
+          <div><div class="card-price">1 100 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Cuaderno Personalizado','1 100 CUP','Anota tus ideas con estilo. Personalizable en portada y contraportada. Perfecto para estudiantes, creativos o profesionales.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="accesorios">
+      <div class="card-img"><span class="emoji">🖊️</span></div>
+      <div class="card-body">
+        <div class="card-category">Accesorios</div>
+        <div class="card-name">Bolígrafo Personalizado</div>
+        <div class="card-desc">Estética profesional con escritura fluida. Personalizable con nombre, iniciales o logo de empresa. Deja huella en cada trazo.</div>
+        <div class="card-footer">
+          <div><div class="card-price">950 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Bolígrafo Personalizado','950 CUP','Estética profesional con escritura fluida y constante. Personalizable con tu nombre, iniciales o el logo de tu empresa.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="accesorios">
+      <div class="card-img"><span class="emoji">🎨</span></div>
+      <div class="card-body">
+        <div class="card-category">Accesorios</div>
+        <div class="card-name">Vinilo y Sublimación Extra</div>
+        <div class="card-desc">Personaliza tus productos con acabados vibrantes y duraderos. Detalles nítidos y colores intensos.</div>
+        <div class="card-footer">
+          <div><div class="card-price">1 000 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Vinilo y Sublimación Extra','1 000 CUP','Personaliza tus productos con acabados vibrantes y duraderos. Ideal para crear piezas únicas con detalles nítidos y colores intensos.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- REGALOS -->
+    <div class="card" data-cat="regalos">
+      <div class="card-img"><span class="emoji">📚</span><span class="card-badge">Único</span></div>
+      <div class="card-body">
+        <div class="card-category">Regalos</div>
+        <div class="card-name">MiniBook Llavero</div>
+        <div class="card-desc">Tus recuerdos favoritos, siempre contigo. Tapa y páginas rígidas. 100% personalizable con fotos y frases favoritas.</div>
+        <div class="card-footer">
+          <div><div class="card-price">3 500 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('MiniBook Llavero','3 500 CUP','Tapa y páginas rígidas de alta durabilidad. 100% personalizable con tus fotos y frases favoritas. Un detalle único, emotivo y resistente para regalar.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="regalos">
+      <div class="card-img"><span class="emoji">🎁</span></div>
+      <div class="card-body">
+        <div class="card-category">Regalos</div>
+        <div class="card-name">Empaque para MiniBook</div>
+        <div class="card-desc">Caja con interior aterciopelado de lujo. Protege tu MiniBook con un acabado que convierte el regalo en una experiencia inolvidable.</div>
+        <div class="card-footer">
+          <div><div class="card-price">1 500 <span>USD</span></div></div>
+          <button class="card-order" onclick="openModal('Empaque para MiniBook','1 500 USD','Caja elegante con interior aterciopelado. Protege tu MiniBook y aporta un acabado de lujo que convierte tu detalle en una experiencia inolvidable.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="regalos">
+      <div class="card-img"><span class="emoji">🎁</span><span class="card-badge">Lujo</span></div>
+      <div class="card-body">
+        <div class="card-category">Regalos</div>
+        <div class="card-name">Caja Rígida para Tazas</div>
+        <div class="card-desc">Empaque de dos piezas con base entallada. 100% personalizable con logotipo. Unboxing de lujo para regalos corporativos.</div>
+        <div class="card-footer">
+          <div><div class="card-price">3 500 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Caja Rígida para Tazas','3 500 CUP','Sofisticado empaque de dos piezas con base entallada para exhibir la taza como una joya. 100% personalizable con logotipo o diseño.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="regalos">
+      <div class="card-img"><span class="emoji">🍎</span></div>
+      <div class="card-body">
+        <div class="card-category">Regalos</div>
+        <div class="card-name">Apple (Figura de Cristal)</div>
+        <div class="card-desc">5cm × 3cm. Figura en forma de manzana. Elegante y única para regalos creativos y tiernos. Personalizable con fotos.</div>
+        <div class="card-footer">
+          <div><div class="card-price">1 200 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Apple (Figura de Cristal)','1 200 CUP','5cm × 3cm. Pieza elegante en forma de manzana. Perfecta para regalos creativos y tiernos, ideal para cualquier ocasión.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="regalos">
+      <div class="card-img"><span class="emoji">🔮</span></div>
+      <div class="card-body">
+        <div class="card-category">Regalos</div>
+        <div class="card-name">Key Glass</div>
+        <div class="card-desc">Llavero de cristal 3cm. Compacto, elegante y duradero. Lleva tus recuerdos contigo a donde vayas.</div>
+        <div class="card-footer">
+          <div><div class="card-price">1 000 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Key Glass','1 000 CUP','Llavero de cristal de 3cm. Compacto, elegante y duradero. Ideal para regalos personalizados llenos de significado.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="regalos">
+      <div class="card-img"><span class="emoji">🖼️</span></div>
+      <div class="card-body">
+        <div class="card-category">Regalos</div>
+        <div class="card-name">Cuadros Personalizados</div>
+        <div class="card-desc">Transforma tus mejores momentos. Formatos: 5×7 (1 300 CUP), 6×8 (1 500 CUP), 8×10 (1 800 CUP).</div>
+        <div class="card-footer">
+          <div><div class="card-price">desde 1 300 <span>CUP</span></div></div>
+          <button class="card-order" onclick="openModal('Cuadros Personalizados','1 300 / 1 500 / 1 800 CUP','Tus recuerdos favoritos, listos para decorar. Formatos: 5×7 (1 300 CUP), 6×8 (1 500 CUP), 8×10 pulgadas (1 800 CUP). Perfectos solos o en galería de pared.')">Pedir</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /grid -->
+</section>
+
+<!-- HIGHLIGHT BANNER -->
+<div class="highlight">
+  <div>
+    <h2>Diseña.<br>Personaliza.<br>Sorprende.</h2>
+    <p>Cada producto de WOW Habana es un lienzo en blanco esperando tu creatividad. Logos, fotos, tipografías, frases — lo hacemos tuyo.</p>
+    <a href="#contacto">Solicitar presupuesto</a>
+  </div>
+  <div class="highlight-right">
+    <div class="big-wow">WOW</div>
+  </div>
+</div>
+
+<!-- PROCESO -->
+<section class="process" id="proceso">
+  <div class="section-header">
+    <span class="section-tag">Simple y rápido</span>
+    <h2 class="section-title">¿Cómo <span class="outline">funciona?</span></h2>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Elige tu producto</h3>
+      <p>Navega el catálogo y selecciona el artículo que quieras personalizar con tu diseño o el nuestro.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>Envía tu diseño</h3>
+      <p>Compártenos tu logo, foto o tipografía. Si necesitas ayuda con el diseño, también lo podemos hacer.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Confirmamos y producimos</h3>
+      <p>Te enviamos una previsualización para aprobación. Una vez confirmado, producimos tu pedido.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h3>Entrega</h3>
+      <p>Recibe tu pedido personalizado listo para usar, regalar o lucir con orgullo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section class="contact" id="contacto">
+  <div class="contact-box">
+    <h2>¡Contáctanos!</h2>
+    <p>Estamos listos para ayudarte a crear algo increíble. Escríbenos por el canal que prefieras y cuéntanos qué necesitas.</p>
+    <div class="contact-links">
+      <a class="contact-link whatsapp" href="https://wa.me/1234567890" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp
+      </a>
+      <a class="contact-link instagram" href="https://instagram.com/wowhabana" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        Instagram
+      </a>
+      <a class="contact-link email" href="mailto:wowhabana@correo.cu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+        Email
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">WOW<span> HABANA</span></span>
+  <p>© 2026 WOW Habana · Artículos personalizados · La Habana, Cuba</p>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <p id="modal-cat" style="font-size:.65rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--wow-pink);font-weight:600;margin-bottom:6px;"></p>
+    <h3 id="modal-name"></h3>
+    <div class="modal-price" id="modal-price"></div>
+    <p id="modal-desc"></p>
+    <div class="modal-actions">
+      <a id="modal-wa-link" class="modal-wa" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Pedir por WhatsApp
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── FILTER ──
+  function filterCat(cat) {
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(c => {
+      if (cat === 'all' || c.dataset.cat === cat) {
+        c.style.display = '';
+      } else {
+        c.style.display = 'none';
+      }
+    });
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+
+  // ── MODAL ──
+  function openModal(name, price, desc) {
+    document.getElementById('modal-name').textContent = name;
+    document.getElementById('modal-price').textContent = price;
+    document.getElementById('modal-desc').textContent = desc;
+    const msg = encodeURIComponent(`Hola WOW Habana! 👋\nMe interesa: *${name}* (${price})\n\n${desc}\n\nQuisiera más información.`);
+    document.getElementById('modal-wa-link').href = `https://wa.me/54132511?text=${msg}`;
+    document.getElementById('modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+</script>
+</body>
+</html>
